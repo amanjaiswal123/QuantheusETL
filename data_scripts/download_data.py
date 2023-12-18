@@ -108,12 +108,8 @@ def tiingo_download(exchange, start_date=None, end_date=None,days=None):
             print('\nAverage time per call is',avgcalltime,'seconds with',SymbolsRem,'calls left. Expect',((SymbolsRem*(avgcalltime))/60),'minutes till completion\n')
             #Reseting start every 100 calls
             start = datetime.now()
-            break
     if start_date != None and end_date != None:
-        try:
-            SymDat = SymDat[(SymDat['date'] >= start_date) & (SymDat['date'] <= str(end_date))]
-        except:
-            c = 1
+        SymDat = SymDat[(SymDat['date'] >= start_date) & (SymDat['date'] <= str(end_date))]
         print('\nRetrieved Data for', exchange, '\n')
     # Renaming adjusted_close to adj_close to keep data generic with other sources
     SymDat = SymDat.rename(columns={'adjClose': 'adj_close','adjHigh': 'adj_high','adjLow': 'adj_low','adjOpen': 'adj_open','adjVolume': 'adj_volume','div_cash': 'dividend_amount','splitFactor': 'split-coefficient'})
