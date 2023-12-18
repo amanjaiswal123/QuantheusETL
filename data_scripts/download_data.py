@@ -71,7 +71,7 @@ def tiingo_download(exchange, start_date=None, end_date=None,days=None):
                 #Finally once all the checks are passed and the neccasry formating of the dataframe is done we add it
                 #to the final dataframe symdat that at the end of the loop will contain all the values for that ticker
                 #minus the ones that were lost due to errors
-                SymDat = SymDat.append(Data)
+                SymDat = pandas.concat([SymDat, Data], ignore_index=True)
                 print("Received "+x)
             else:
                 #If the ticker was not found in Alpha Vantage's API add 1 to errors
@@ -110,8 +110,11 @@ def tiingo_download(exchange, start_date=None, end_date=None,days=None):
             start = datetime.now()
             break
     if start_date != None and end_date != None:
-        SymDat = SymDat[(Data['date'] >= start_date) & (Data['date'] <= str(end_date))]
-    print('\nRetrieved Data for', exchange, '\n')
+        try:
+            SymDat = SymDat[(SymDat['date'] >= start_date) & (SymDat['date'] <= str(end_date))]
+        except:
+            c = 1
+        print('\nRetrieved Data for', exchange, '\n')
     # Renaming adjusted_close to adj_close to keep data generic with other sources
     SymDat = SymDat.rename(columns={'adjClose': 'adj_close','adjHigh': 'adj_high','adjLow': 'adj_low','adjOpen': 'adj_open','adjVolume': 'adj_volume','div_cash': 'dividend_amount','splitFactor': 'split-coefficient'})
     #Return the data that was retrieved
@@ -125,9 +128,7 @@ def tiingo_nyse_nasdaq_download(start_date=None, end_date=None,days=None):
     # Get Data for NASDAQ by specifying the exchange when call the function
     NASDAQ = tiingo_download('NASDAQ', start_date, end_date, days)
     #Create a Dataframe that will have both exchange's data by setting it equal to NYSE
-    Overall = NYSE
-    #Append NASDAQ Data to the dataframe created above
-    Overall = Overall.append(NASDAQ)
+    Overall = pandas.concat([NYSE, NASDAQ], ignore_index=True)
     #Append AMEX Data to the dataframe created above
     #Overall = Overall.append(AMEX)
     #Return the Data with all the Data from NYSE and NASDAQ
