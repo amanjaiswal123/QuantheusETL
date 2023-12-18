@@ -43,7 +43,7 @@ def tiingo_download(exchange, start_date=None, end_date=None,days=None):
                 #This is the api call and we are inserting the symbol as x into the call
                 try:
                     trys += 1
-                    url = "https://api.tiingo.com/tiingo/daily/"+x+"/prices?startDate="+str(start_date)+'&'+str(end_date)+"&format=csv&resampleFreq=monthly&token="+tiingo_apikey
+                    url = "https://api.tiingo.com/tiingo/daily/"+x+"/prices?startDate="+str(start_date)+'&endDate='+str(end_date)+"&format=csv&resampleFreq=daily&token="+tiingo_apikey
                     if datetime.now() - callstart < timedelta(seconds=req__per_second_limit):
                         Delta = ((callstart+timedelta(seconds=req__per_second_limit))-datetime.now()).total_seconds()
                         time.sleep(Delta)
