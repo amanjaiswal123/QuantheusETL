@@ -303,7 +303,7 @@ def RemoveBadData(Data,Start_Date=None,End_Date=_datadate(Today),Days=None,Tradi
 def notify(message, channel='quantheus'):
     token = slack_token
     sc = WebClient(token=token)
-    sc.chat_postMessage(channel=channel,text=message)
+    #sc.chat_postMessage(channel=channel,text=message)
 def ticker_list(exchange='all'): #Get list of tickers Ticker list
     conn = create_engine('postgresql+psycopg2://' + qtheus_rds['user'] + ':' + qtheus_rds['password'] + '@' + qtheus_rds['host'] + '/' + qtheus_rds['dbname'])
     if exchange.lower() == "nyse":
