@@ -3,3 +3,4 @@
 scheduler.py
 myvenv
 /tests/*
+test*
